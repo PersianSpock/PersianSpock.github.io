@@ -1,0 +1,188 @@
+% =====================================================================
+%  Niloufar Modirshanehchi — Curriculum Vitae
+%  Hand-authored LaTeX (pdflatex). No external CV class: the layout is
+%  built from standard packages so the source is fully self-contained.
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.6cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+
+% --- palette (kept consistent with the portfolio site) ----------------
+\definecolor{ink}{HTML}{16203A}
+\definecolor{accent}{HTML}{21409A}
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+\color{ink}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% --- section headings -------------------------------------------------
+\titleformat{\section}
+  {\large\bfseries\color{accent}}{}{0pt}{}[\vspace{1pt}\hrule height 0.8pt]
+\titlespacing{\section}{0pt}{10pt}{6pt}
+
+% --- helper: one experience entry ------------------------------------
+% #1 role  #2 dates  #3 organisation/detail  #4 location
+\newcommand{\entry}[4]{%
+  \noindent\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    \textbf{#1} & #2 \\
+    \textit{#3} & \textit{#4} \\
+  \end{tabular*}\vspace{2pt}}
+
+\setlist[itemize]{leftmargin=1.2em, topsep=2pt, itemsep=1pt, parsep=0pt}
+
+\begin{document}
+
+% ----------------------------- header --------------------------------
+\begin{center}
+  {\LARGE\bfseries Niloufar Modirshanehchi}\\[4pt]
+  (+49) 15757941944 \,$\cdot$\, Berlin, Germany \,$\cdot$\,
+  \href{mailto:n.m.shanechi@gmail.com}{n.m.shanechi@gmail.com}\\[2pt]
+  \href{https://github.com/PersianSpock}{github.com/PersianSpock} \,$\cdot$\,
+  \href{https://www.linkedin.com/in/nil-modirshanehchi/}{linkedin.com/in/nil-modirshanehchi}
+\end{center}
+
+% --------------------------- education -------------------------------
+\section{Education}
+\entry{B.Sc. in Computer Science}{Sep. 2025 -- present}
+      {Gisma University of Applied Sciences, Germany}{}
+\begin{itemize}
+  \item Pursuing a second B.Sc.
+\end{itemize}
+\vspace{4pt}
+\entry{Associate's degree in Electrical Engineering}{2018 -- 2023}
+      {Ferdowsi University of Mashhad, Iran}{}
+\begin{itemize}
+  \item Left the B.Sc. degree.
+\end{itemize}
+
+% ----------------------------- skills --------------------------------
+\section{Skills}
+\begin{tabular}{@{}>{\bfseries}p{3.4cm} p{14cm}@{}}
+Programming Languages & Python, SQL, C++ \\[3pt]
+Tools \& Libraries & Pandas, NumPy, PyTorch, TensorFlow, OpenCV, Scikit-Learn,
+  LLM APIs, AWS (S3, SageMaker, EC2), Git, Docker \\[3pt]
+Data Analytics & ETL/ELT Pipelines (Airflow, dbt), Data Warehousing
+  (Snowflake, BigQuery), Data Lake Architectures, A/B Test Evaluation,
+  User Behavior Analysis, Financial \& Operational Metric Analysis,
+  Visualization Tools (Power BI, Tableau, Python libraries) \\[3pt]
+Machine Learning & NLP Pipelines, LLM-based NLP Workflows, Transformer Models
+  (Hugging Face), LLM Applications (RAG, API Integration), Recommender Systems,
+  Feature Engineering, Model Evaluation \\[3pt]
+Natural Languages & English (C1), German (A1 -- attending B1 intensive course) \\
+\end{tabular}
+
+% ------------------------ technical experience -----------------------
+\section{Technical Experience}
+
+\entry{Werkstudent Data Engineering}{May 2026 -- present}
+      {thekey.academy (Working student)}{Berlin, Germany}
+\begin{itemize}
+  \item Working on analytics infrastructure and tracking quality across web,
+        Android, and iOS platforms using BigQuery and GA4.
+  \item Supporting data pipelines for ad platform data (Google Ads, Meta Ads)
+        and cross-platform event tracking.
+\end{itemize}
+\vspace{5pt}
+
+\entry{Junior Data Scientist}{Jul 2023 -- Sep 2023}
+      {Hotelian.com (Full-time)}{Dubai, UAE}
+\begin{itemize}
+  \item Contributed to the development of a conversational AI platform for hotel
+        bookings, presented at ITB Asia 2023, which focused on LLM-based content
+        understanding, personalized recommendations, and search relevance.
+  \item Built Data and NLP pipelines in Python and SQL over 1M+ user reviews,
+        hotel metadata, and behavioral signals to learn reusable representations;
+        replacing heuristic baseline with embedding-based ranking model,
+        improving offline AUC from 0.68 $\to$ 0.75 (+10\% relative uplift) on
+        user-level holdout; validated via a 2-week A/B test (CTR +4.7\%, $p<0.05$).
+  \item Developed a personalized ranker using semantic embeddings, Elasticsearch,
+        and GIS features; improving offline ranking (NDCG@10) from 0.31 to 0.37
+        (+19\% relative) vs. the prior production ranker on a time-based
+        validation set.
+  \item Designed production KPIs and model monitoring (data quality, drift
+        signals, conversion, latency, error rates) to track impact and
+        reliability during rollouts.
+\end{itemize}
+\vspace{5pt}
+
+\entry{Remote Research Intern}{Aug 2022 -- Jul 2023}
+      {University College London (Internship)}{London, UK}
+\begin{itemize}
+  \item Worked on the core recommendation engine for personalization and ranking
+        systems on a UCL-backed startup.
+  \item Built a SQL feature extraction pipeline, and implemented contextual
+        bandit ($\varepsilon$-greedy) for ranking optimization.
+  \item Improved simulated NDCG@10 from 0.42 to 0.45 (+7\% relative) vs. an
+        implicit MF baseline using offline replay evaluation.
+  \item Produced end-to-end ML workflows on AWS (EC2, S3, SageMaker), reducing
+        model iteration/training time by 10\%.
+  \item Supported product decisions through model-driven content ranking
+        experiments and A/B tests, and tracking conversion KPIs plus basic
+        drift/data-quality checks after rollout.
+\end{itemize}
+\vspace{5pt}
+
+\entry{Junior Data Analyst \& NLP Researcher}{July 2020 -- May 2023}
+      {Wise Intelligent Agents (ahdsoft) (Part-time)}{Mashhad, Iran}
+\textit{NLP Researcher:}
+\begin{itemize}
+  \item Built and deployed multiple NLP systems using pretrained transformer
+        models (BERT, T5, TrOCR), leading supervised fine-tuning across OCR,
+        ASR, and text classification tasks in low-resource Farsi, including
+        CTC-based wav2vec2 adaptation and domain-specific tokenizer adaptation.
+  \item Developed shared fine-tuning and evaluation pipelines for Farsi ASR,
+        combining academic datasets (e.g., Common Voice) with large-scale
+        proprietary data (recorded noisy conversations in Farsi); reducing WER by
+        25--30\% (relative) vs. prior production models via systematic
+        fine-tuning and data augmentation.
+\end{itemize}
+\textit{Junior Data Analyst:}
+\begin{itemize}
+  \item Delivered 150+ dashboards tracking revenue, cost, conversion, and
+        operational KPIs across logistics, marketing, and sales, enabling
+        data-driven decisions in budgeting, pricing, and operational planning.
+  \item Developed and maintained ETL pipelines to transform raw data from data
+        lake into structured warehouse schemas, improving data reliability and
+        reporting efficiency, reducing query time and storage costs.
+  \item Performed EDA workflows, customer segmentation, and user-behavior
+        analysis for supporting targeted marketing and content strategies,
+        leading to conversion improvements.
+  \item Collaborated with product and business stakeholders to define KPIs and
+        perform analysis on trade-offs between growth, customer acquisition
+        efficiency, and operational costs.
+\end{itemize}
+\vspace{5pt}
+
+\entry{Remote Research Intern}{July 2021 -- Sep. 2021}
+      {Dublin City University (Internship)}{Dublin, Ireland}
+\begin{itemize}
+  \item Contributed to a research project on Graph Neural Networks (GNNs) aimed
+        at extracting structured knowledge from deep neural networks and
+        generating human-readable local explanations.
+  \item Developed and implemented semantic knowledge graph models using Neo4j
+        while utilizing Python, PyTorch, and TensorFlow on CIFAR-10 and
+        CIFAR-100 datasets.
+  \item Supported research efforts through practical ML implementations, laying a
+        strong foundation in advanced neural network techniques.
+\end{itemize}
+
+% ---------------------------- activities -----------------------------
+\section{Activities}
+\begin{itemize}
+  \item Olympiad teacher for high school students (Combinatorics, Advanced
+        Algorithms, Graph Theory) --- 2018--2021.
+  \item Problem Setter \& Judge at 16th International ISC Conference on
+        Information Security and Cryptology (ISCISC'19) --- 2019.
+  \item Problem Setter \& Judge for state-wide Mathematics Olympiad for middle
+        school students --- 2018.
+\end{itemize}
+
+\end{document}

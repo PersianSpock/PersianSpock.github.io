@@ -1,0 +1,314 @@
+% =====================================================================
+%  Portfolio report — Niloufar Modirshanehchi
+%  Compiles with pdflatex.
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{ink}{HTML}{16203A}
+\definecolor{accent}{HTML}{21409A}
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+\color{ink}
+
+\titleformat{\section}{\large\bfseries\color{accent}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titlespacing{\section}{0pt}{12pt}{5pt}
+\setlist[itemize]{leftmargin=1.3em, topsep=2pt, itemsep=2pt}
+
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+
+\title{\vspace{-1.5cm}\textbf{Portfolio Website --- Design and Build Report}}
+\author{Niloufar Modirshanehchi}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.0cm}
+
+\begin{center}\small
+Live site: \href{https://persianspock.github.io}{https://persianspock.github.io}
+\quad$\cdot$\quad
+Repository: \href{https://github.com/PersianSpock/PersianSpock.github.io}{github.com/PersianSpock/PersianSpock.github.io}
+\end{center}
+\hrule
+\vspace{6pt}
+
+% ---------------------------------------------------------------------
+\section{Introduction}
+
+This report documents the design and construction of my personal portfolio
+website. The site is a single, hand-authored static page that introduces my
+background, offers my CV for download, and presents one machine-learning project
+as an in-depth case study. It is published with GitHub Pages and the complete
+source --- including this report and the LaTeX source of my CV --- lives in the
+repository linked above.
+
+The guiding principle behind every decision was the same one I bring to data
+work: prefer things that can be inspected and verified. That shows up in small
+ways throughout --- the CV is kept as LaTeX source rather than only a PDF, the
+project's reported metrics are attributed to their source, and the performance
+and accessibility claims in this report are backed by measurements I ran rather
+than assertions.
+
+% ---------------------------------------------------------------------
+\section{Website structure}
+
+The page is built from five semantic regions, in reading order:
+
+\begin{itemize}
+  \item \textbf{Header / navigation.} A sticky top bar with a monogram and
+        anchor links (About, Project, Toolkit, CV, Contact). It stays in view so
+        navigation is one click from anywhere on the page.
+  \item \textbf{Hero.} A short positioning statement paired with the site's
+        signature element: a small ROC (receiver operating characteristic) curve
+        rendered in inline SVG that animates --- drawing itself from the origin
+        --- on load. The ROC curve was chosen deliberately: it is the canonical
+        picture of a classifier separating signal from chance, which both ties to
+        the featured project and states the site's theme (measurement) without a
+        word of explanation.
+  \item \textbf{About.} A two-column block: a large lead sentence on my current
+        role and a supporting paragraph on prior data-science and NLP work.
+  \item \textbf{Featured project.} The churn-prediction case study: a one-line
+        problem framing, a two-column ``Approach / Results'' layout, animated
+        result bars, and three call-to-action links (source code, Colab notebook,
+        full case study).
+  \item \textbf{Toolkit.} A compact set of labelled ``chips'' summarising the
+        technologies I work with, drawn directly from my CV.
+  \item \textbf{CV band and footer.} A download button for the PDF with a note
+        that the CV is LaTeX-authored, followed by a contact footer (email,
+        GitHub, LinkedIn).
+\end{itemize}
+
+Each region maps to an HTML5 landmark (\texttt{header}, \texttt{main},
+\texttt{section}, \texttt{footer}, \texttt{nav}) so the document is navigable by
+structure, not just by sight.
+
+% ---------------------------------------------------------------------
+\section{Repository structure}
+
+The repository mirrors the layout below. The directory tree is intentionally
+flat and predictable so a reviewer can find any artefact without guessing.
+
+\begin{verbatim}
+PersianSpock.github.io/
+|-- index.html                  # portfolio homepage (semantic HTML)
+|-- css/style.css               # single stylesheet: tokens + responsive rules
+|-- assets/favicon.svg          # site favicon
+|-- cv/
+|   |-- cv.tex                  # CV - LaTeX source
+|   |-- cv.pdf                  # CV - compiled PDF (linked from the site)
+|-- projects/
+|   |-- churn-prediction/
+|       |-- README.md           # case study; links to source repo + Colab
+|-- report/
+|   |-- report.tex              # this report - LaTeX source
+|   |-- report.pdf              # this report - compiled PDF
+|-- .gitignore
+|-- README.md                   # explains the repo and how it deploys
+\end{verbatim}
+
+Two deliberate points. First, the CV's \texttt{.tex} source sits beside the PDF,
+so the CV is reproducible from source and verifiably LaTeX-authored rather than
+exported from a word processor. Second, the featured project lives in its own
+repository (\texttt{Python-AI}); the \texttt{projects/} folder holds a case-study
+write-up that links to that canonical source rather than a second copy of the
+code --- see the design decisions below.
+
+% ---------------------------------------------------------------------
+\section{Design decisions}
+
+Each decision is given with the alternative I rejected and the cost I accepted.
+
+\subsection{Hand-written HTML/CSS over a static-site generator}
+I wrote the page directly rather than using Jekyll or Hugo (both first-class on
+GitHub Pages) or a React build. For a single page, a generator's templating,
+Markdown pipeline, and theme system are overhead that buys nothing, while adding
+a build step and a dependency tree to maintain. \emph{Cost:} if the site grows to
+many pages, I will have no templating or content/markup separation and will
+likely have to refactor toward a generator. For the current scope that trade is
+clearly worth it, and it keeps the deployment a zero-configuration file copy.
+
+\subsection{A user-pages repository for a root-level URL}
+Naming the repository \texttt{PersianSpock.github.io} makes GitHub Pages serve it
+from the user-level domain root (\texttt{persianspock.github.io}). The rejected
+alternative --- an ordinary project repository --- would deploy to a
+\texttt{/repo-name/} sub-path, which complicates root-relative links and reads
+less cleanly. \emph{Cost:} only one site can occupy the user-pages slot, so this
+``spends'' that slot on the portfolio.
+
+\subsection{IBM Plex web fonts over the system font stack}
+Typography is the page's main source of personality, so I used the IBM Plex
+superfamily --- Serif for display, Sans for body, Mono for data and labels. It is
+an engineered, system-designed family that suits a data portfolio and avoids the
+generic high-contrast-serif look. The rejected alternative was the native system
+font stack, which costs zero requests and never flashes. \emph{Cost:} web fonts
+add external requests on the render path. I mitigated this with
+\texttt{preconnect} hints and \texttt{font-display: swap} (text paints
+immediately in a fallback, then swaps), and I restricted the request to only the
+weights actually used. This is the single biggest performance trade on the page
+and I made it consciously --- the empirical section below quantifies it.
+
+\subsection{One in-depth project over several shallow ones}
+The portfolio features a single project in depth rather than a grid of small
+ones. A real, fully documented pipeline demonstrates more than several toy demos.
+\emph{Cost:} less apparent breadth, and the portfolio's strength is tied to one
+case study; the structure leaves room to add more later.
+
+\subsection{Linking to the project's source over vendoring it}
+The case-study page links to the canonical \texttt{Python-AI} repository and the
+Colab notebook rather than copying the code into this repository. Copying would
+create two histories that drift apart. \emph{Cost:} a reader must follow a link to
+read the code, and the portfolio depends on the external repository remaining
+public. I judged a single source of truth to be worth more than self-containment,
+and I attribute every reported metric to the notebook rather than restating it as
+my own fresh measurement.
+
+\subsection{A single stylesheet with design tokens}
+All styling is one file using CSS custom properties for colour and type. The
+rejected alternative --- utility classes (e.g.\ Tailwind) or multiple
+stylesheets --- adds tooling or fragmentation that a page this size does not
+need. \emph{Cost:} no utility ergonomics; discipline is manual.
+
+\subsection{Empirical check: page weight and accessibility}
+The brief rewards decisions justified by experiment, so I measured two things.
+
+\textbf{Transfer size and requests.} The entire render-critical payload ---
+\texttt{index.html}, \texttt{style.css}, and the SVG favicon --- is
+\textbf{20.5\,KB raw / about 6.5\,KB gzipped}, served over \textbf{three} local
+requests. The CV PDF (92\,KB) loads only on an explicit download click. The only
+other first-load cost is the IBM Plex font request, which confirms the
+quantitative shape of the font trade above: nearly the whole ``weight'' of the
+page is its fonts, not its markup or styles.
+
+\textbf{Colour contrast (WCAG~2.1).} I computed contrast ratios for the key
+text/background pairs. All pass the AA threshold for normal text (4.5:1):
+
+\begin{center}\small
+\begin{tabular}{lcc}
+\toprule
+Pair & Ratio & WCAG AA (normal) \\
+\midrule
+Body ink on paper        & 14.9:1 & Pass \\
+Muted text on paper      & 5.75:1 & Pass \\
+Accent (links) on paper  & 8.56:1 & Pass \\
+Footer text on ink       & 10.8:1 & Pass \\
+Turquoise links on ink   & 5.20:1 & Pass \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These are computed figures, not estimates. The natural next measurement is a
+Lighthouse audit on the live URL, which I recommend running with:
+
+{\small\texttt{npx lighthouse https://persianspock.github.io --only-categories=performance,accessibility}}
+
+% ---------------------------------------------------------------------
+\section{Tools and technologies}
+
+\begin{itemize}
+  \item \textbf{HTML5} --- semantic structure (landmark elements, a skip link).
+  \item \textbf{CSS3} --- custom properties (design tokens), Grid and Flexbox
+        layout, media queries, keyframe animation, and a
+        \texttt{prefers-reduced-motion} fallback.
+  \item \textbf{SVG} --- the animated ROC curve and the favicon, both vector and
+        tiny.
+  \item \textbf{IBM Plex} (Serif / Sans / Mono) via Google Fonts.
+  \item \textbf{Git \& GitHub} --- version control with an incremental commit
+        history.
+  \item \textbf{GitHub Pages} --- static hosting; pushing to \texttt{main}
+        redeploys.
+  \item \textbf{LaTeX} (\texttt{pdflatex}) --- the CV and this report.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+\section{Critical reflection}
+
+\textbf{Strengths.}
+\begin{itemize}
+  \item \emph{Lightweight and fast by construction.} At roughly 6.5\,KB gzipped of
+        markup and styles over three requests, the page has almost nothing to
+        optimise away.
+  \item \emph{Accessible foundations.} Semantic landmarks, a keyboard skip link,
+        visible focus styles, a reduced-motion fallback, and verified AA contrast.
+  \item \emph{Reproducible and honest artefacts.} The CV is LaTeX from source;
+        the project's numbers are attributed to their notebook rather than
+        re-asserted.
+  \item \emph{A signature with meaning.} The ROC curve is not decoration --- it
+        encodes the site's theme and connects to the featured project.
+\end{itemize}
+
+\textbf{Weaknesses.}
+\begin{itemize}
+  \item \emph{No automated testing or CI.} There are no HTML/CSS validation or
+        link-checking steps in a pipeline; checks were run manually during the
+        build. A broken link could ship unnoticed.
+  \item \emph{Web fonts on the render path.} Despite \texttt{swap} and
+        \texttt{preconnect}, the fonts are third-party requests and can cause a
+        brief flash of fallback text; they are the page's main performance cost.
+  \item \emph{Single point of depth.} One featured project means limited breadth,
+        and the portfolio leans on one external repository staying available.
+  \item \emph{Metrics not re-run here.} The project's results are reported from
+        Colab and not regenerated in this build, so they are attributed rather
+        than independently reproduced.
+  \item \emph{Thin discoverability.} Basic meta tags only --- no Open Graph
+        tags, sitemap, or structured data.
+  \item \emph{Accessibility not formally audited.} Contrast is verified, but no
+        automated audit (e.g.\ axe or Lighthouse) or screen-reader pass has been
+        run end to end.
+\end{itemize}
+
+\textbf{Future improvements.}
+\begin{itemize}
+  \item Add a GitHub Actions workflow that validates HTML, checks links, and runs
+        a Lighthouse budget on every push --- turning the manual checks into
+        enforced ones.
+  \item Self-host subset \texttt{woff2} fonts to cut external requests and remove
+        the fallback flash entirely.
+  \item Add Open Graph / Twitter card meta and a sitemap for sharing and SEO.
+  \item Grow the \texttt{projects/} section as more public work becomes available,
+        and add a small reproducible script that regenerates a headline metric so
+        at least one figure is verified in-repo.
+  \item Run an automated accessibility audit and a screen-reader pass, and add a
+        finer responsive breakpoint for the smallest viewports.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+\section{References}
+
+\begin{itemize}[leftmargin=2em]
+  \item[] Mozilla (2024) \textit{HTML elements reference}. Available at:
+        \url{https://developer.mozilla.org/en-US/docs/Web/HTML/Element}
+        (Accessed: 24 June 2026).
+  \item[] Mozilla (2024) \textit{Using CSS custom properties (variables)}.
+        Available at:
+        \url{https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties}
+        (Accessed: 24 June 2026).
+  \item[] GitHub (2024) \textit{Configuring a publishing source for your GitHub
+        Pages site}. Available at:
+        \url{https://docs.github.com/en/pages} (Accessed: 24 June 2026).
+  \item[] IBM (2021) \textit{IBM Plex typeface}. Available at:
+        \url{https://www.ibm.com/plex/} (Accessed: 24 June 2026).
+  \item[] Google (2024) \textit{Optimize WebFont loading and rendering}.
+        Available at: \url{https://web.dev/articles/font-best-practices}
+        (Accessed: 24 June 2026).
+  \item[] W3C (2023) \textit{Web Content Accessibility Guidelines (WCAG) 2.1}.
+        Available at: \url{https://www.w3.org/TR/WCAG21/} (Accessed: 24 June 2026).
+  \item[] Google (2024) \textit{Lighthouse: performance and accessibility
+        auditing}. Available at:
+        \url{https://developer.chrome.com/docs/lighthouse/overview} (Accessed:
+        24 June 2026).
+  \item[] IBM (2019) \textit{Telco customer churn sample dataset}. Available at:
+        \url{https://www.kaggle.com/datasets/blastchar/telco-customer-churn}
+        (Accessed: 24 June 2026).
+\end{itemize}
+
+\end{document}

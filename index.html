@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Niloufar Modirshanehchi — Data Engineer</title>
+  <meta name="description" content="Niloufar Modirshanehchi — Data Engineer and Data Scientist based in Berlin. Portfolio, CV, and a featured machine-learning project on customer churn prediction.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Web fonts: IBM Plex superfamily (serif display / sans body / mono data) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-brand" href="#top">NM<span class="nav-dot">.</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#project">Project</a></li>
+        <li><a href="#toolkit">Toolkit</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================ HERO ============================ -->
+    <section class="hero" id="top">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow">Data Engineer · Data Scientist · Berlin</p>
+          <h1>Niloufar<br>Modirshanehchi</h1>
+          <p class="lede">
+            I build data systems where every number can be traced back to its
+            source. Recommenders, attribution, NLP, and the measurement
+            discipline that decides whether a result is trustworthy.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#project">View the project</a>
+            <a class="btn btn-ghost" href="cv/cv.pdf" download>Download CV (PDF)</a>
+          </div>
+        </div>
+
+        <!-- Signature element: an ROC curve that draws on load. -->
+        <figure class="hero-figure" aria-hidden="true">
+          <svg viewBox="0 0 240 240" class="roc" role="presentation">
+            <!-- plot frame -->
+            <line class="axis" x1="30" y1="210" x2="220" y2="210"/>
+            <line class="axis" x1="30" y1="210" x2="30" y2="20"/>
+            <!-- chance diagonal -->
+            <line class="diag" x1="30" y1="210" x2="220" y2="20"/>
+            <!-- ROC curve (bows toward top-left = good classifier) -->
+            <path class="curve" d="M30,210 C 45,120 70,70 110,55 C 150,40 195,30 220,20"/>
+            <text class="figlabel" x="124" y="234">false positive rate</text>
+            <text class="figlabel rot" x="-120" y="14">true positive rate</text>
+          </svg>
+          <figcaption>ROC — separating signal from chance.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================ ABOUT =========================== -->
+    <section class="band" id="about">
+      <div class="wrap">
+        <p class="section-eyebrow">01 — About</p>
+        <div class="about-cols">
+          <p class="about-lead">
+            I'm a data engineer at thekey.academy, working on analytics
+            infrastructure and tracking quality across web, Android, and iOS with
+            BigQuery and GA4.
+          </p>
+          <p class="about-body">
+            Before this I worked as a data scientist and NLP researcher —
+            embedding-based recommenders and ranking systems at Hotelian.com and a
+            UCL-backed startup, and transformer fine-tuning for low-resource Farsi
+            (OCR, ASR, text classification). I'm now pursuing a second B.Sc. in
+            Computer Science at GISMA. The constant across all of it is a bias
+            toward verified measurement: a figure doesn't leave my desk without
+            knowing how it was produced and what it can and can't support.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== PROJECT ========================== -->
+    <section class="band band-alt" id="project">
+      <div class="wrap">
+        <p class="section-eyebrow">02 — Featured project</p>
+        <div class="project-head">
+          <h2>Telecom Customer Churn Prediction</h2>
+          <p class="project-tag">Supervised ML · imbalanced classification · tabular</p>
+        </div>
+
+        <p class="project-intro">
+          Predict which telecom customers are about to leave — early enough to act —
+          while keeping the model interpretable enough to name the churn drivers.
+          Retaining a customer costs 5–10× less than acquiring one, so a reliable
+          risk flag is a direct lever on profit.
+        </p>
+
+        <div class="project-body">
+          <div class="project-col">
+            <h3>Approach</h3>
+            <ul class="ticks">
+              <li>Cleaned and encoded the IBM Telco dataset (~7k customers, 21 features); MinMax-scaled, with <strong>SMOTE</strong> to fix the class imbalance.</li>
+              <li>Feature selection via chi-squared (categorical) and ANOVA F-test (numerical); PCA tried and rejected — it hurt ROC-AUC and broke interpretability.</li>
+              <li>Benchmarked eight classifiers (XGBoost, LightGBM, CatBoost, Random Forest, and more) plus a stacking ensemble, scored with repeated stratified CV.</li>
+              <li>Built a Keras ANN (19→8→4→1) and an AutoKeras search; compared four optimizers across up- and down-sampling, then tuned the best models with GridSearch.</li>
+            </ul>
+          </div>
+
+          <div class="project-col">
+            <h3>Results <span class="src-note">reported in the Colab notebook</span></h3>
+            <div class="results">
+              <div class="result-row">
+                <span class="result-name">CatBoost <em>(tuned)</em></span>
+                <span class="result-bar"><span class="result-fill" style="--w:86%"></span></span>
+                <span class="result-val">86%</span>
+              </div>
+              <div class="result-row">
+                <span class="result-name">Keras ANN <em>(up-sampled)</em></span>
+                <span class="result-bar"><span class="result-fill" style="--w:86%"></span></span>
+                <span class="result-val">86%</span>
+              </div>
+              <div class="result-row">
+                <span class="result-name">XGBoost</span>
+                <span class="result-bar"><span class="result-fill" style="--w:84.5%"></span></span>
+                <span class="result-val">84.5%</span>
+              </div>
+            </div>
+            <p class="result-finding">
+              Once the imbalance was handled and the boosted model tuned, a compact
+              3-layer network matched the best tree ensemble rather than beating it
+              — a useful finding for a tabular problem this size.
+            </p>
+          </div>
+        </div>
+
+        <div class="project-links">
+          <a class="btn btn-primary" href="https://github.com/PersianSpock/Python-AI" target="_blank" rel="noopener">Source code ↗</a>
+          <a class="btn btn-ghost" href="https://colab.research.google.com/drive/12twa2VeJP1IL24zI3rVxQsB2hHPf9Kxo?usp=sharing" target="_blank" rel="noopener">Colab notebook ↗</a>
+          <a class="btn btn-ghost" href="projects/churn-prediction/README.md">Full case study ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== TOOLKIT ========================== -->
+    <section class="band" id="toolkit">
+      <div class="wrap">
+        <p class="section-eyebrow">03 — Toolkit</p>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">C++</span>
+          <span class="chip">Pandas</span><span class="chip">NumPy</span>
+          <span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">Scikit-Learn</span>
+          <span class="chip">BigQuery</span><span class="chip">Snowflake</span>
+          <span class="chip">Airflow</span><span class="chip">dbt</span>
+          <span class="chip">AWS (S3 · SageMaker · EC2)</span>
+          <span class="chip">Docker</span><span class="chip">Git</span>
+          <span class="chip">GA4</span><span class="chip">A/B testing</span>
+          <span class="chip">Hugging Face</span><span class="chip">RAG / LLM APIs</span>
+          <span class="chip">Power BI</span><span class="chip">Tableau</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= CV ============================= -->
+    <section class="band band-alt" id="cv">
+      <div class="wrap cv-wrap">
+        <div>
+          <p class="section-eyebrow">04 — Curriculum vitae</p>
+          <p class="cv-note">
+            The CV is authored in LaTeX — the <code>.tex</code> source lives in
+            this repository alongside the compiled PDF, so the document is
+            reproducible from source, not just exported.
+          </p>
+        </div>
+        <a class="btn btn-primary cv-btn" href="cv/cv.pdf" download>Download CV (PDF)</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================== FOOTER =========================== -->
+  <footer class="site-footer" id="contact">
+    <div class="wrap footer-grid">
+      <div>
+        <p class="footer-name">Niloufar Modirshanehchi</p>
+        <p class="footer-loc">Berlin, Germany</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="mailto:n.m.shanechi@gmail.com">n.m.shanechi@gmail.com</a></li>
+        <li><a href="https://github.com/PersianSpock" target="_blank" rel="noopener">github.com/PersianSpock</a></li>
+        <li><a href="https://www.linkedin.com/in/nil-modirshanehchi/" target="_blank" rel="noopener">linkedin.com/in/nil-modirshanehchi</a></li>
+      </ul>
+    </div>
+    <p class="footer-fine">Built with hand-written HTML &amp; CSS · deployed on GitHub Pages</p>
+  </footer>
+
+</body>
+</html>
